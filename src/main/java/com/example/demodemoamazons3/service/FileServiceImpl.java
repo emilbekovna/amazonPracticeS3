@@ -8,12 +8,7 @@ public interface FileServiceImpl {
 
     String saveFile(MultipartFile file);
 
-    byte[] downloadFile(String fileName); //
-
-
     String deleteFile(String fileName);
-
-    List<String> listAllFiles();
 
 
 }

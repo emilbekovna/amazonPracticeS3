@@ -1,9 +1,7 @@
 package com.example.demodemoamazons3.service;
 
-import com.amazonaws.services.customerprofiles.model.ListProfileObjectsResult;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.*;
-import com.amazonaws.util.IOUtils;
+import com.amazonaws.services.s3.model.PutObjectResult;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,7 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
 
 @Service
 public class S3Service implements FileServiceImpl {
@@ -37,27 +34,11 @@ public class S3Service implements FileServiceImpl {
     }
 
     @Override
-    public byte[] downloadFile(String fileName) {
-        S3Object object = s3.getObject(bucketName, fileName);
-        S3ObjectInputStream objectContent = object.getObjectContent();
-        try {
-            return IOUtils.toByteArray(objectContent);
-        }catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
     public String deleteFile(String fileName) {
         s3.deleteObject(bucketName,fileName);
         return "File deleted";
     }
 
-    @Override
-    public List<String> listAllFiles() {
-        ListObjectsV2Result listObjectsV2Result = s3.listObjectsV2(bucketName);
-        return listObjectsV2Result.;
-    }
 
     private File convertMultiPartToFile(MultipartFile file) throws IOException {
         File confile = new File(file.getOriginalFilename());
